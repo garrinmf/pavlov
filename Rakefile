@@ -37,8 +37,8 @@ task :build => [:clean] do
   cp 'README.markdown', 'dist/README.markdown'
 
   # copy lib
-  cp 'lib/qunit.js', 'dist/lib/qunit.js'
-  cp 'lib/qunit.css', 'dist/lib/qunit.css'
+  cp 'lib/qunit-1.11.0.js', 'dist/lib/qunit-1.11.0.js'
+  cp 'lib/qunit-1.11.0.css', 'dist/lib/qunit-1.11.0.css'
 
   # copy example
   cp 'example/example.specs.html', 'dist/example/example.specs.html'
