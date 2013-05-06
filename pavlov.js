@@ -317,28 +317,23 @@
         fail: function (actual, message) {
             adapter.assert(false, message);
         },
-        /**
-         * This is quite ugly, but I keep it for legacy reasons.
-         * The issue I have with it is that it doesn't allow me to verify
-         * that I throw real Error objects - it considers strings to be
-         * valid too.
-         */
         throwsException: function (actual, expectedError, message) {
-            // can optionally accept expected error message
+            // can optionally accept expected error message string or object
             try {
                 actual();
                 adapter.assert(false, message);
             } catch (e) {
-                if (expectedError) {
-                    var expectedErrorType = util.type(expectedError);
-                    var actualMessage = ((typeof e === 'object' && e.message) || e);
-                    if (typeof expectedErrorType === 'string') {
-                        adapter.assert(actualMessage === expectedError, message);
-                    } else {
-                        adapter.assert(util.type(e) === expectedErrorType && actualMessage === expectedError.message, message);
+                if (expectedError === undefined) {
+                    // e always === e so assertion always passes
+                    adapter.assert(e === e, message);
+                } else if (typeof e === 'string') {
+                    adapter.assert(e === expectedError, message);
+                } else if (typeof e === 'object') {
+                    if (typeof expectedError === 'object') {
+                        adapter.assert(e.name === expectedError.name && e.message === expectedError.message, message);
+                    } else if(typeof expectedError === 'string')  {
+                        adapter.assert(e.message === expectedError, message);
                     }
-                } else {
-                    adapter.assert(true, message);
                 }
             }
         },
