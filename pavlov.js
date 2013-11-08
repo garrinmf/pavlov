@@ -329,7 +329,9 @@
                 } else if (typeof e === 'string') {
                     adapter.assert(e === expectedError, message);
                 } else if (typeof e === 'object') {
-                    if (typeof expectedError === 'object') {
+                    if (expectedError instanceof RegExp) {
+                    	adapter.assert(expectedError.test(e.message), message);
+	            } else if (typeof expectedError === 'object') {
                         adapter.assert(e.name === expectedError.name && e.message === expectedError.message, message);
                     } else if(typeof expectedError === 'string')  {
                         adapter.assert(e.message === expectedError, message);
